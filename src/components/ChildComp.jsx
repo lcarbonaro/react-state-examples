@@ -7,7 +7,14 @@ function ChildComp() {
 
   const [movies, setMovies] = useState([]);
 
-  const [newMovie, setNewMovie] = useState('');
+  const [newMovie, setNewMovie] = useState("");
+
+  const [books, setBooks] = useState([
+    { isbn: 12345, title: "Travels With My Aunt", genre: "fiction" },
+  ]);
+
+  const [newTitle, setNewTitle] = useState("");
+  const [newGenre, setNewGenre] = useState("");
 
   function handleClick() {
     setName("John");
@@ -18,8 +25,21 @@ function ChildComp() {
   }
 
   function handleAddMovie() {
-    setMovies( function(prevMovies) { 
-        return [ ...prevMovies, newMovie] 
+    setMovies(function (prevMovies) {
+      return [...prevMovies, newMovie];
+    });
+  }
+
+  function handleAddBook() {
+    setBooks(function (prevBooks) {
+      let newBook = {
+        isbn: prevBooks.length + 1,
+        title: newTitle,
+        genre: newGenre,
+      };
+      let newBookList = [...prevBooks, newBook]
+      //console.table(newBookList);
+      return newBookList;
     });
   }
 
@@ -40,17 +60,44 @@ function ChildComp() {
       </div>
 
       <div>
-        <input type="text" name="" id="" onChange={ e => setNewMovie(e.target.value) }/>
+        <input
+          type="text"
+          name=""
+          id=""
+          onChange={(e) => setNewMovie(e.target.value)}
+        />
         <button onClick={handleAddMovie}>Add Movie</button>
 
         <div>
-            <ul>
-                
-                { movies.map( (m,i) => <li key={i}>{m}</li> ) }
-                 
-            </ul>
+          <ul>
+            {movies.map((m, i) => (
+              <li key={i}>{m}</li>
+            ))}
+          </ul>
         </div>
+      </div>
 
+      <div>
+        <input
+          type="text"
+          placeholder="BookTitle"
+          onChange={(e) => setNewTitle(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Genre"
+          onChange={(e) => setNewGenre(e.target.value)}
+        />
+        <button onClick={handleAddBook}>Add Book</button>
+
+        <div>
+          <ul>
+          {books.map((b) => (
+              <li key={b.isbn}>{b.title} ({b.genre})</li>
+            ))}
+
+          </ul>
+        </div>
       </div>
     </>
   );
